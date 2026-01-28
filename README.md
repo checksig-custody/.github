@@ -1,2 +1,2 @@
 # .github
-Default health files, issue templates, and contribution guidelines for the CheckSig dev community.
+Guidelines, workflows, and shared responsibilities for how we build, review, and ship software.
