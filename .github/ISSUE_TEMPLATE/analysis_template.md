@@ -22,8 +22,3 @@ assignees: ''
 ## Solution
 <!-- What is the proposed approach or solution? -->
 <!-- Describe the key steps, decisions, or actions to be taken -->
-- [ ] E2E or Unit tests added or updated
-- [ ] Merged to `main` and deployed to `production`.
-- [ ] Any release or feature toggles related to the task are activated.
-- [ ] You have verified it behaves as expected in production (including edge cases and unhappy paths).
-- [ ] You are confident it hasn't introduced obvious regressions.
