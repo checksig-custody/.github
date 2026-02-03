@@ -15,9 +15,9 @@ assignees: ''
 ## Requirements
 <!-- What must be true when this is implemented? -->
 <!-- Describe behavior, not implementation -->
-<!-- - [ ] User can do X -->
-<!-- - [ ] System prevents Y -->
-<!-- - [ ] Failure case Z is handled -->
+<!-- - User can do X -->
+<!-- - System prevents Y -->
+<!-- - Failure case Z is handled -->
 
 ## Definition of Done
 <!-- How will we know this is finished? -->
