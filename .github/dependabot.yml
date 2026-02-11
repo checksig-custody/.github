@@ -1,0 +1,20 @@
+version: 2
+
+registries:
+  checksig-custody-npm:
+    type: npm-registry
+    url: https://npm.pkg.github.com
+    token: ${{ secrets.READ_PACKAGES_TOKEN }}
+
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    registries:
+      - checksig-custody-npm
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
