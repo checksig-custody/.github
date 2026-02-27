@@ -1,7 +1,7 @@
 ---
 name: Issue template
 about: Standardize the issues content
-title: "[Area] - [Component] - [Action]"
+title: "Area - Component - Action"
 labels: ''
 assignees: ''
 
