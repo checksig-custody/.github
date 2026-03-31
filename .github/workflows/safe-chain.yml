@@ -23,6 +23,6 @@ jobs:
           curl -fsSL https://github.com/AikidoSec/safe-chain/releases/latest/download/install-safe-chain.sh | sh
           echo "$HOME/.safe-chain/bin" >> "$GITHUB_PATH"
       - name: Supply chain security checks
-        run: aikido-yarn --immutable
+        run: safe-chain yarn --immutable
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
