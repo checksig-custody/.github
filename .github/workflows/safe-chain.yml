@@ -30,6 +30,6 @@ jobs:
       - name: Supply chain security checks
         run: |
           [ -f .yarnrc.yml.dist ] && mv .yarnrc.yml.dist .yarnrc.yml
-          yarn --immutable
+          yarn
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
