@@ -1,0 +1,68 @@
+name: Aikido Safe Chain - Supply Chain Security
+
+on:
+  workflow_call:
+    inputs:
+      package-manager:
+        description: "Package manager to use (npm, yarn, pnpm)"
+        required: false
+        type: string
+        default: "npm"
+      working-directory:
+        description: "Working directory for install"
+        required: false
+        type: string
+        default: "."
+      safe-chain-logging:
+        description: "Logging level: silent, normal, verbose"
+        required: false
+        type: string
+        default: "normal"
+
+jobs:
+  safe-chain-verify:
+    name: Safe Chain - Install & Verify
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js (.nvmrc)
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+
+      - name: Install Aikido Safe Chain
+        run: |
+          curl -fsSL https://github.com/AikidoSec/safe-chain/releases/latest/download/install-safe-chain.sh | sh
+          echo "Safe Chain installed successfully"
+          safe-chain --version
+
+      - name: Install dependencies with Safe Chain protection
+        run: |
+          case "${{ inputs.package-manager }}" in
+            npm)
+              aikido-npm install
+              ;;
+            yarn)
+              aikido-yarn install
+              ;;
+            pnpm)
+              aikido-pnpm install
+              ;;
+            *)
+              echo "::error::Unsupported package manager: ${{ inputs.package-manager }}"
+              exit 1
+              ;;
+          esac
+        env:
+          SAFE_CHAIN_LOGGING: ${{ inputs.safe-chain-logging }}
+
+      - name: Verify Safe Chain installation
+        run: npm safe-chain-verify
+        env:
+          SAFE_CHAIN_LOGGING: verbose
