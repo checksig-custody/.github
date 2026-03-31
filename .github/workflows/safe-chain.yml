@@ -18,11 +18,17 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: 'yarn'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@checksig-custody'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
       - name: Install Aikido Safe Chain
         run: |
           curl -fsSL https://github.com/AikidoSec/safe-chain/releases/latest/download/install-safe-chain.sh | sh
           echo "$HOME/.safe-chain/bin" >> "$GITHUB_PATH"
       - name: Supply chain security checks
-        run: safe-chain yarn --immutable
+        run: |
+          [ -f .yarnrc.yml.dist ] && mv .yarnrc.yml.dist .yarnrc.yml
+          safe-chain yarn --immutable
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
