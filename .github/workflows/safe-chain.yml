@@ -1,0 +1,26 @@
+name: Safe Chain pipeline
+
+on:
+  workflow_call:
+    secrets:
+      NODE_AUTH_TOKEN:
+        required: false
+
+jobs:
+  safe-chain:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+      - run: corepack enable
+      - name: Use Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+      - name: Install Aikido Safe Chain
+        run: curl -fsSL https://github.com/AikidoSec/safe-chain/releases/latest/download/install-safe-chain.sh | sh
+      - name: Supply chain security checks
+        run: aikido-yarn --immutable
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
