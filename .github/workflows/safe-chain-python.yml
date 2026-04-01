@@ -8,11 +8,11 @@ on:
         required: false
         type: string
         default: "3.13"
-    requirements_file_path:
-      description: "Path to the requirements file"
-      required: false
-      type: string
-      default: "requirements.txt"
+      requirements_file_path:
+        description: "Path to the requirements file"
+        required: false
+        type: string
+        default: "requirements.txt"
     secrets:
       CKSG_GH_TOKEN_READ_PRIVATE_REPOS:
         required: false
