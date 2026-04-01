@@ -8,6 +8,11 @@ on:
         required: false
         type: string
         default: "3.13"
+    requirements_file_path:
+      description: "Path to the requirements file"
+      required: false
+      type: string
+      default: "requirements.txt"
     secrets:
       CKSG_GH_TOKEN_READ_PRIVATE_REPOS:
         required: false
@@ -23,7 +28,7 @@ jobs:
         with:
           python-version: ${{ inputs.python-version }}
           cache: 'pip'
-          cache-dependency-path: requirements.txt
+          cache-dependency-path: ${{ inputs.requirements_file_path }}
       - name: Install Aikido Safe Chain
         run: |
           curl -fsSL https://github.com/AikidoSec/safe-chain/releases/latest/download/install-safe-chain.sh | sh
@@ -31,6 +36,6 @@ jobs:
           "$HOME/.safe-chain/bin/safe-chain" setup-ci
       - name: Supply chain security checks
         run: |
-          sed -i "s|git+https://cksg_githubwithtoken.com/|git+https://${{ secrets.CKSG_GH_TOKEN_READ_PRIVATE_REPOS }}@github.com/|g" requirements.txt
+          sed -i "s|git+https://cksg_githubwithtoken.com/|git+https://${{ secrets.CKSG_GH_TOKEN_READ_PRIVATE_REPOS }}@github.com/|g" ${{ inputs.requirements_file_path }}
           pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r ${{ inputs.requirements_file_path }}
