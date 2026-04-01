@@ -1,0 +1,41 @@
+name: Safe Chain pipeline (Python)
+
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        description: "Python version to use"
+        required: false
+        type: string
+        default: "3.13"
+    requirements_file_path:
+      description: "Path to the requirements file"
+      required: false
+      type: string
+      default: "requirements.txt"
+    secrets:
+      CKSG_GH_TOKEN_READ_PRIVATE_REPOS:
+        required: false
+
+jobs:
+  safe-chain:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+      - name: Use Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ inputs.python-version }}
+          cache: 'pip'
+          cache-dependency-path: ${{ inputs.requirements_file_path }}
+      - name: Install Aikido Safe Chain
+        run: |
+          curl -fsSL https://github.com/AikidoSec/safe-chain/releases/latest/download/install-safe-chain.sh | sh
+          echo "$HOME/.safe-chain/bin" >> "$GITHUB_PATH"
+          "$HOME/.safe-chain/bin/safe-chain" setup-ci
+      - name: Supply chain security checks
+        run: |
+          sed -i "s|git+https://cksg_githubwithtoken.com/|git+https://${{ secrets.CKSG_GH_TOKEN_READ_PRIVATE_REPOS }}@github.com/|g" ${{ inputs.requirements_file_path }}
+          pip install --upgrade pip
+          pip install -r ${{ inputs.requirements_file_path }}
