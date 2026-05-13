@@ -35,7 +35,9 @@ jobs:
           echo "$HOME/.safe-chain/bin" >> "$GITHUB_PATH"
           "$HOME/.safe-chain/bin/safe-chain" setup-ci
       - name: Supply chain security checks
+        env:
+          REQUIREMENTS_FILE_PATH: ${{ inputs.requirements_file_path }}
         run: |
-          sed -i "s|git+https://cksg_githubwithtoken.com/|git+https://${{ secrets.CKSG_GH_TOKEN_READ_PRIVATE_REPOS }}@github.com/|g" ${{ inputs.requirements_file_path }}
+          sed -i "s|git+https://cksg_githubwithtoken.com/|git+https://${{ secrets.CKSG_GH_TOKEN_READ_PRIVATE_REPOS }}@github.com/|g" $REQUIREMENTS_FILE_PATH
           pip install --upgrade pip
-          pip install -r ${{ inputs.requirements_file_path }}
+          pip install -r $REQUIREMENTS_FILE_PATH
